@@ -4,6 +4,10 @@
 WebFront::WebFront(){
 }
 
+WebFront::WebFront(LocalDB& db){
+    mDB = db;
+}
+
 WebFront::~WebFront(){
     delete mClientServer;
 
@@ -13,16 +17,19 @@ void WebFront::setup(){
     mClientServer = new ESP8266WebServer(80);
     mSwitchText = "OFF";
     mClientServer->on("/", std::bind(&WebFront::handleRoot, this));
+    mClientServer->on("/init", std::bind(&WebFront::handleInit, this));
     mClientServer->on("/set", std::bind(&WebFront::handleSet, this));
     mClientServer->on("/get", std::bind(&WebFront::handleGet, this));
     mClientServer->begin();
 
-    if (!MDNS.begin("smartswitcher")) {
+    if (!MDNS.begin("SmartSwitcher")) {
         Serial.println("Error setting up MDNS responder!");
         while (1) {
             delay(1000);
         }
     }
+    MDNS.addService("http", "tcp", 80);
+    Serial.println("Setup is ok");
 }
 
 void WebFront::handle() {
@@ -57,20 +64,38 @@ void WebFront::printArgument(){
     Serial.println(message);
 }
 
+void WebFront::handleInit(){
+    mDB.spiffs_init();
+    mClientServer->send ( 200, "text/html", getPage() );
+}
+
 void WebFront::handleSet(){
     printArgument();
     if ( mClientServer->hasArg("on_angle") )
     {
-        int on_angle = mClientServer->arg("on_angle").toInt();
+        mDB.spiffs_writing("on_angle", mClientServer->arg("on_angle"));
+        // Serial.println("on_angle: " +  mClientServer->arg("on_angle"));
     }
     if ( mClientServer->hasArg("off_angle") )
     {
-        int off_angle = mClientServer->arg("on_angle").toInt();
+        mDB.spiffs_writing("off_angle", mClientServer->arg("off_angle"));
+        // Serial.println("off_angle: " +  mClientServer->arg("off_angle"));
     }
+    mClientServer->send ( 200, "text/html", getPage() );
 }
 
 void WebFront::handleGet(){
     printArgument();
+    mDB.spiffs_reading();
+    if ( mClientServer->hasArg("on_angle") )
+    {
+        Serial.println(mDB.mOn_angle);
+    }
+    if ( mClientServer->hasArg("off_angle") )
+    {
+        Serial.println(mDB.mOff_angle);
+    }
+    mClientServer->send ( 200, "text/html", getPage() );
 
 }
 
