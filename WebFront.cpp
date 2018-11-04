@@ -4,18 +4,22 @@
 WebFront::WebFront(){
 }
 
-WebFront::WebFront(LocalDB& db){
-    mDB = db;
-}
+
 
 WebFront::~WebFront(){
     delete mClientServer;
 
 }
 
-void WebFront::setup(){
+void WebFront::setup(LocalDB& db, ServoController& servo){
+    mDB= db;
+    mDB.spiffs_reading();
+    mServoController = servo;
+    int angle = atoi(mDB.mMiddle_angle);
+    mServoController.moveToAngle(angle);
+
     mClientServer = new ESP8266WebServer(80);
-    mSwitchText = "OFF";
+    mSwitchText = "ON";
     mClientServer->on("/", std::bind(&WebFront::handleRoot, this));
     mClientServer->on("/init", std::bind(&WebFront::handleInit, this));
     mClientServer->on("/set", std::bind(&WebFront::handleSet, this));
@@ -74,13 +78,20 @@ void WebFront::handleSet(){
     if ( mClientServer->hasArg("on_angle") )
     {
         mDB.spiffs_writing("on_angle", mClientServer->arg("on_angle"));
-        // Serial.println("on_angle: " +  mClientServer->arg("on_angle"));
+        strcpy(mDB.mOn_angle,mClientServer->arg("on_angle").c_str());
     }
     if ( mClientServer->hasArg("off_angle") )
     {
         mDB.spiffs_writing("off_angle", mClientServer->arg("off_angle"));
-        // Serial.println("off_angle: " +  mClientServer->arg("off_angle"));
+        strcpy(mDB.mOff_angle,mClientServer->arg("off_angle").c_str());
     }
+    if ( mClientServer->hasArg("middle_angle") )
+    {
+        mDB.spiffs_writing("middle_angle", mClientServer->arg("middle_angle"));
+        strcpy(mDB.mMiddle_angle,mClientServer->arg("middle_angle").c_str());
+    }
+
+
     mClientServer->send ( 200, "text/html", getPage() );
 }
 
@@ -95,7 +106,11 @@ void WebFront::handleGet(){
     {
         Serial.println(mDB.mOff_angle);
     }
-    mClientServer->send ( 200, "text/html", getPage() );
+    if ( mClientServer->hasArg("middle_angle") )
+    {
+        Serial.println(mDB.mMiddle_angle);
+    }
+        mClientServer->send ( 200, "text/html", getPage() );
 
 }
 
@@ -114,15 +129,15 @@ void WebFront::handleSubmit() {
   Serial.print("Set Switch to:"); Serial.println(SwitchValue);
   if ( SwitchValue == "1" ) 
   {
-    // myservo.write(100);
-    delay(100);                           
+    int angle = atoi(mDB.mOn_angle);
+    mServoController.moveToAngle(angle, atoi(mDB.mMiddle_angle));
     mSwitchText = "On";
     mClientServer->send ( 200, "text/html", getPage() );
   } 
   else if ( SwitchValue == "0" ) 
   {
-    // myservo.write(50);              
-    delay(100);                           
+    int angle = atoi(mDB.mOff_angle);
+    mServoController.moveToAngle(angle,atoi(mDB.mMiddle_angle));
     mSwitchText = "Off";
     mClientServer->send ( 200, "text/html", getPage() );
   } 

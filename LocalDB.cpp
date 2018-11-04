@@ -2,7 +2,10 @@
 
     LocalDB::LocalDB()
     {
-
+        strcpy(mOn_angle, "0");
+        strcpy(mOff_angle, "0");
+        strcpy(mMiddle_angle, "0");
+        strcpy(mAlarm_time, "0");
     }
     LocalDB::~LocalDB()
     {
@@ -34,6 +37,7 @@
                         Serial.println("\nparsed json");
                         strcpy(mOn_angle, json["on_angle"]);
                         strcpy(mOff_angle, json["off_angle"]);
+                        strcpy(mMiddle_angle, json["middle_angle"]);
                         strcpy(mAlarm_time, json["alarm_time"]);
                     } 
                     else {
@@ -87,6 +91,7 @@
             JsonObject& json = jsonBuffer.createObject();
             json["on_angle"] = "0";
             json["off_angle"] = "60";
+            json["middle_angle"] = "30";
             json["alarm_time"] = "n0000";
 
             File configFile = SPIFFS.open("/config.json", "w");

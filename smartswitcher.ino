@@ -5,21 +5,23 @@
 #include <ESP8266WebServer.h>
 #include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
 #include "WebFront.h"
+#include "ServoController.h"
 
 //Global variables
 
 LocalDB db;
-WebFront webFront(db);
+ServoController servoController;
+WebFront webFront;
 
 
 void setup() {
-    // put your setup code here, to run once:
+    servoController.setup();
     Serial.begin(115200);
     WiFiManager wifiManager;
     wifiManager.autoConnect("SmartSwitcher");
     //////////////////////////////////////////////////////////
     // After autoConnect, setup again..
-    webFront.setup();
+    webFront.setup(db, servoController);
 }
 
 void loop() {

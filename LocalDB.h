@@ -14,6 +14,7 @@ public:
     void spiffs_init();
     void spiffs_writing(String id, String val);
 
+    char mMiddle_angle[4];
     char mOn_angle[4];
     char mOff_angle[4];
     char mAlarm_time[6];
