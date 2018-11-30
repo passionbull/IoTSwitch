@@ -13,7 +13,6 @@
         mAngle = 0;
         mEnable = true;
         mServo.attach(14);
-        mServo.write(0);
     }
 
 
@@ -21,19 +20,24 @@
     {
         mEnable = v1;
         if(v1 == true)
-            mServo.attach(2);
+            mServo.attach(14);
         else
             mServo.detach();
     }
     
     void ServoController::moveToAngle(int goal_angle, int middle_angle)
     {
+        if(mEnable == false)
+            return;
         moveToAngle(goal_angle);
         moveToAngle(middle_angle);
+        enableMotor(false);
     }
 
        void ServoController::moveToAngle(int goal_angle)
     {
+        if(mEnable == false)
+            return;
         int size = 0;
         int added = 1;
         if(goal_angle - mAngle > 0)

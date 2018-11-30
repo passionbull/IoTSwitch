@@ -15,7 +15,6 @@ WebFront webFront;
 
 
 void setup() {
-    servoController.setup();
     Serial.begin(115200);
     WiFiManager wifiManager;
     wifiManager.autoConnect("SmartSwitcher");

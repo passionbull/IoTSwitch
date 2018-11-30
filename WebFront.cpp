@@ -14,9 +14,15 @@ WebFront::~WebFront(){
 void WebFront::setup(LocalDB& db, ServoController& servo){
     mDB= db;
     mDB.spiffs_reading();
+    
+    //set motor init
     mServoController = servo;
+    mServoController.setup();
+
+    // move motor to center
     int angle = atoi(mDB.mMiddle_angle);
     mServoController.moveToAngle(angle);
+    mServoController.enableMotor(false);
 
     mClientServer = new ESP8266WebServer(80);
     mSwitchText = "ON";
@@ -129,6 +135,7 @@ void WebFront::handleSubmit() {
   Serial.print("Set Switch to:"); Serial.println(SwitchValue);
   if ( SwitchValue == "1" ) 
   {
+    mServoController.enableMotor(true);  
     int angle = atoi(mDB.mOn_angle);
     mServoController.moveToAngle(angle, atoi(mDB.mMiddle_angle));
     mSwitchText = "On";
@@ -136,6 +143,7 @@ void WebFront::handleSubmit() {
   } 
   else if ( SwitchValue == "0" ) 
   {
+    mServoController.enableMotor(true);  
     int angle = atoi(mDB.mOff_angle);
     mServoController.moveToAngle(angle,atoi(mDB.mMiddle_angle));
     mSwitchText = "Off";

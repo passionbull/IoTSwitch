@@ -1,10 +1,10 @@
-# SmartSwitcher
-SmartSwitcher makes switch on/off automatically.
+# IoTSwitcher
+IoTSwitcher makes switch on/off automatically.
 
 ## Contents
 - [What it is](#what-is-it)
 - [How it works](#how-it-works)
-- [Wishlist](#wishlist)
+- [To do list](#to-do-list)
 - [Hardware schematic](#hardware-schematic)
 - [Third party library](#third-party)
 - [Similar projects](#similar-projects)
@@ -15,12 +15,14 @@ SmartSwitcher makes switch on/off automatically.
 
 ## How it works
 
-## Wishlist
+## TO DO LIST
 - [x] Connect easily board (using WiFiManager)
-- [x] Run web-server with DNS
-- [ ] Control motor using web-server
-- [ ] Set parameter using web-server
-- [ ] make hardware for this device
+- [x] Control motor using HTTP requests
+- [x] Set parameter using HTTP requests
+- [x] Make hardware for this device
+- [ ] Set alarm using HTTP requests
+- [ ] Run web-server with DNS for connecting easily
+- [ ] Set init spiffs
 
 ## Hardware schematic
 
