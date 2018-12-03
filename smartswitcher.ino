@@ -8,7 +8,6 @@
 #include "ServoController.h"
 
 //Global variables
-
 LocalDB db;
 ServoController servoController;
 WebFront webFront;
@@ -18,8 +17,8 @@ void setup() {
     Serial.begin(115200);
     WiFiManager wifiManager;
     wifiManager.autoConnect("SmartSwitcher");
-    //////////////////////////////////////////////////////////
-    // After autoConnect, setup again..
+
+    // After autoConnect, webFront server is initialized.
     webFront.setup(db, servoController);
 }
 
