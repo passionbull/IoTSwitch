@@ -46,6 +46,10 @@
                     configFile.close();
                 }
             }
+            else {
+                // if config.json is not exist, board should generate the file.
+                spiffs_init();
+            }
         }        
     }
 

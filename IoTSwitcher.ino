@@ -17,9 +17,10 @@ WebFront webFront;
 void setup() {
     Serial.begin(115200);
     WiFiManager wifiManager;
-    wifiManager.autoConnect("SmartSwitcher");
+    wifiManager.autoConnect("IoTSwitcher");
+    
     //////////////////////////////////////////////////////////
-    // After autoConnect, setup again..
+    // After autoConnect, webFront server is initialized.
     webFront.setup(db, servoController);
 }
 

@@ -12,6 +12,7 @@ WebFront::~WebFront(){
 }
 
 void WebFront::setup(LocalDB& db, ServoController& servo){
+    //set db init
     mDB= db;
     mDB.spiffs_reading();
     
@@ -24,6 +25,7 @@ void WebFront::setup(LocalDB& db, ServoController& servo){
     mServoController.moveToAngle(angle);
     mServoController.enableMotor(false);
 
+    // web server setup
     mClientServer = new ESP8266WebServer(80);
     mSwitchText = "ON";
     mClientServer->on("/", std::bind(&WebFront::handleRoot, this));
@@ -32,7 +34,9 @@ void WebFront::setup(LocalDB& db, ServoController& servo){
     mClientServer->on("/get", std::bind(&WebFront::handleGet, this));
     mClientServer->begin();
 
-    if (!MDNS.begin("SmartSwitcher")) {
+    // You can connect webpage using domain name.
+    // SmartSwitcher.local
+    if (!MDNS.begin("IoTSwitcher")) {
         Serial.println("Error setting up MDNS responder!");
         while (1) {
             delay(1000);
