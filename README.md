@@ -20,9 +20,9 @@ IoTSwitcher makes switch on/off automatically.
 - [x] Control motor using HTTP requests
 - [x] Set parameter using HTTP requests
 - [x] Make hardware for this device
+- [x] Set init spiffs
 - [ ] Set alarm using HTTP requests
 - [ ] Run web-server with DNS for connecting easily
-- [x] Set init spiffs
 
 ## Hardware schematic
 

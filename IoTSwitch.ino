@@ -6,7 +6,7 @@
 #include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
 #include "WebFront.h"
 #include "ServoController.h"
-
+#include "Timer.h"
 //Global variables
 
 LocalDB db;
@@ -17,7 +17,7 @@ WebFront webFront;
 void setup() {
     Serial.begin(115200);
     WiFiManager wifiManager;
-    wifiManager.autoConnect("IoTSwitcher");
+    wifiManager.autoConnect("IoT Switch");
     
     //////////////////////////////////////////////////////////
     // After autoConnect, webFront server is initialized.

@@ -52,7 +52,7 @@ void WebFront::handle() {
 
 String WebFront::getPage() {
     String page = "<html><head><meta/>";
-    page += "<title>Smart Switcher</title>";
+    page += "<title>IoT Switch</title>";
     page += "<style> body { background-color: #fffff; font-family: Arial, Helvetica, Sans-Serif; Color: #000088; }</style>";
     page += "</head><body><h1>Switch ON/OFF</h1>";
     page += "<p><h3>Switch status : </h3>";
@@ -101,7 +101,22 @@ void WebFront::handleSet(){
         strcpy(mDB.mMiddle_angle,mClientServer->arg("middle_angle").c_str());
     }
 
-
+    // set alarm
+    if ( mClientServer->hasArg("alarm_0") )
+    {
+        mDB.spiffs_writing("alarm_0", mClientServer->arg("alarm_0"));
+        strcpy(mDB.mAlarm_time_0,mClientServer->arg("alarm_0").c_str());
+    }
+    if ( mClientServer->hasArg("alarm_1") )
+    {
+        mDB.spiffs_writing("alarm_1", mClientServer->arg("alarm_1"));
+        strcpy(mDB.mAlarm_time_1,mClientServer->arg("alarm_1").c_str());
+    }
+    if ( mClientServer->hasArg("alarm_2") )
+    {
+        mDB.spiffs_writing("alarm_2", mClientServer->arg("alarm_2"));
+        strcpy(mDB.mAlarm_time_2,mClientServer->arg("alarm_2").c_str());
+    }
     mClientServer->send ( 200, "text/html", getPage() );
 }
 
@@ -120,8 +135,19 @@ void WebFront::handleGet(){
     {
         Serial.println(mDB.mMiddle_angle);
     }
-        mClientServer->send ( 200, "text/html", getPage() );
-
+    if ( mClientServer->hasArg("alarm_0") )
+    {
+        Serial.println(mDB.mAlarm_time_0);
+    }
+    if ( mClientServer->hasArg("alarm_1") )
+    {
+        Serial.println(mDB.mAlarm_time_1);
+    }
+    if ( mClientServer->hasArg("alarm_2") )
+    {
+        Serial.println(mDB.mAlarm_time_2);
+    }
+    mClientServer->send ( 200, "text/html", getPage() );
 }
 
 void WebFront::handleRoot(){ 
