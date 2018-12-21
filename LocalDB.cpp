@@ -5,9 +5,9 @@
         strcpy(mOn_angle, "0");
         strcpy(mOff_angle, "0");
         strcpy(mMiddle_angle, "0");
-        strcpy(mAlarm_time_0, "00000000000");
-        strcpy(mAlarm_time_1, "00000000000");
-        strcpy(mAlarm_time_2, "00000000000");
+        strcpy(mAlarm_time_0, "000000000000");
+        strcpy(mAlarm_time_1, "000000000000");
+        strcpy(mAlarm_time_2, "000000000000");
     }
     LocalDB::~LocalDB()
     {
@@ -110,9 +110,9 @@
             json["on_angle"] = "0";
             json["off_angle"] = "60";
             json["middle_angle"] = "30";
-            json["alarm_0"] = "00000000000";//HHMMDDDDDDD
-            json["alarm_1"] = "00000000000";//HHMMDDDDDDD
-            json["alarm_2"] = "00000000000";//HHMMDDDDDDD
+            json["alarm_0"] = "000000000000";//HHMMDDDDDDDX
+            json["alarm_1"] = "000000000000";//HHMMDDDDDDDX
+            json["alarm_2"] = "000000000000";//HHMMDDDDDDDX
 
             File configFile = SPIFFS.open("/config.json", "w");
             if (!configFile) {

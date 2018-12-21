@@ -17,9 +17,9 @@ public:
     char mMiddle_angle[4];
     char mOn_angle[4];
     char mOff_angle[4];
-    char mAlarm_time_0[12]; // HHMMDDDDDDD
-    char mAlarm_time_1[12]; // HHMMDDDDDDD
-    char mAlarm_time_2[12]; // HHMMDDDDDDD
+    char mAlarm_time_0[13]; // HHMMDDDDDDDX
+    char mAlarm_time_1[13]; // HHMMDDDDDDDX
+    char mAlarm_time_2[13]; // HHMMDDDDDDDX
 
 };
 
