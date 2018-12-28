@@ -2,6 +2,8 @@
     
     ServoController::ServoController()
     {
+        Serial.println("created ServoController");
+
     }
 
     ServoController::~ServoController()

@@ -11,19 +11,15 @@ WebFront::~WebFront(){
 
 }
 
-void WebFront::setup(LocalDB& db, ServoController& servo){
-    //set db init
-    mDB= db;
-    mDB.spiffs_reading();
-    
-    //set motor init
+void WebFront::setup(LocalDB* db, ServoController* servo){
+    //connect db and servoController
+    mDB = db;
     mServoController = servo;
-    mServoController.setup();
 
     // move motor to center
-    int angle = atoi(mDB.mMiddle_angle);
-    mServoController.moveToAngle(angle);
-    mServoController.enableMotor(false);
+    int angle = atoi(mDB->mMiddle_angle);
+    mServoController->moveToAngle(angle);
+    mServoController->enableMotor(false);
 
     // web server setup
     mClientServer = new ESP8266WebServer(80);
@@ -78,8 +74,9 @@ void WebFront::printArgument(){
     Serial.println(message);
 }
 
+
 void WebFront::handleInit(){
-    mDB.spiffs_init();
+    mDB->spiffs_init();
     mClientServer->send ( 200, "text/html", getPage() );
 }
 
@@ -87,66 +84,43 @@ void WebFront::handleSet(){
     printArgument();
     if ( mClientServer->hasArg("on_angle") )
     {
-        mDB.spiffs_writing("on_angle", mClientServer->arg("on_angle"));
-        strcpy(mDB.mOn_angle,mClientServer->arg("on_angle").c_str());
+        mDB->spiffs_writing("on_angle", mClientServer->arg("on_angle"));
+        strcpy(mDB->mOn_angle,mClientServer->arg("on_angle").c_str());
     }
     if ( mClientServer->hasArg("off_angle") )
     {
-        mDB.spiffs_writing("off_angle", mClientServer->arg("off_angle"));
-        strcpy(mDB.mOff_angle,mClientServer->arg("off_angle").c_str());
+        mDB->spiffs_writing("off_angle", mClientServer->arg("off_angle"));
+        strcpy(mDB->mOff_angle,mClientServer->arg("off_angle").c_str());
     }
     if ( mClientServer->hasArg("middle_angle") )
     {
-        mDB.spiffs_writing("middle_angle", mClientServer->arg("middle_angle"));
-        strcpy(mDB.mMiddle_angle,mClientServer->arg("middle_angle").c_str());
+        mDB->spiffs_writing("middle_angle", mClientServer->arg("middle_angle"));
+        strcpy(mDB->mMiddle_angle,mClientServer->arg("middle_angle").c_str());
     }
 
     // set alarm
     if ( mClientServer->hasArg("alarm_0") )
     {
-        mDB.spiffs_writing("alarm_0", mClientServer->arg("alarm_0"));
-        strcpy(mDB.mAlarm_time_0,mClientServer->arg("alarm_0").c_str());
+        mDB->spiffs_writing("alarm_0", mClientServer->arg("alarm_0"));
+        strcpy(mDB->mAlarm_time_0,mClientServer->arg("alarm_0").c_str());
     }
     if ( mClientServer->hasArg("alarm_1") )
     {
-        mDB.spiffs_writing("alarm_1", mClientServer->arg("alarm_1"));
-        strcpy(mDB.mAlarm_time_1,mClientServer->arg("alarm_1").c_str());
+        mDB->spiffs_writing("alarm_1", mClientServer->arg("alarm_1"));
+        strcpy(mDB->mAlarm_time_1,mClientServer->arg("alarm_1").c_str());
     }
     if ( mClientServer->hasArg("alarm_2") )
     {
-        mDB.spiffs_writing("alarm_2", mClientServer->arg("alarm_2"));
-        strcpy(mDB.mAlarm_time_2,mClientServer->arg("alarm_2").c_str());
+        mDB->spiffs_writing("alarm_2", mClientServer->arg("alarm_2"));
+        strcpy(mDB->mAlarm_time_2,mClientServer->arg("alarm_2").c_str());
     }
     mClientServer->send ( 200, "text/html", getPage() );
 }
 
 void WebFront::handleGet(){
     printArgument();
-    mDB.spiffs_reading();
-    if ( mClientServer->hasArg("on_angle") )
-    {
-        Serial.println(mDB.mOn_angle);
-    }
-    if ( mClientServer->hasArg("off_angle") )
-    {
-        Serial.println(mDB.mOff_angle);
-    }
-    if ( mClientServer->hasArg("middle_angle") )
-    {
-        Serial.println(mDB.mMiddle_angle);
-    }
-    if ( mClientServer->hasArg("alarm_0") )
-    {
-        Serial.println(mDB.mAlarm_time_0);
-    }
-    if ( mClientServer->hasArg("alarm_1") )
-    {
-        Serial.println(mDB.mAlarm_time_1);
-    }
-    if ( mClientServer->hasArg("alarm_2") )
-    {
-        Serial.println(mDB.mAlarm_time_2);
-    }
+    mDB->spiffs_reading();
+    mDB->printDBData();
     mClientServer->send ( 200, "text/html", getPage() );
 }
 
@@ -165,17 +139,17 @@ void WebFront::handleSubmit() {
   Serial.print("Set Switch to:"); Serial.println(SwitchValue);
   if ( SwitchValue == "1" ) 
   {
-    mServoController.enableMotor(true);  
-    int angle = atoi(mDB.mOn_angle);
-    mServoController.moveToAngle(angle, atoi(mDB.mMiddle_angle));
+    mServoController->enableMotor(true);  
+    int angle = atoi(mDB->mOn_angle);
+    mServoController->moveToAngle(angle, atoi(mDB->mMiddle_angle));
     mSwitchText = "On";
     mClientServer->send ( 200, "text/html", getPage() );
   } 
   else if ( SwitchValue == "0" ) 
   {
-    mServoController.enableMotor(true);  
-    int angle = atoi(mDB.mOff_angle);
-    mServoController.moveToAngle(angle,atoi(mDB.mMiddle_angle));
+    mServoController->enableMotor(true);  
+    int angle = atoi(mDB->mOff_angle);
+    mServoController->moveToAngle(angle,atoi(mDB->mMiddle_angle));
     mSwitchText = "Off";
     mClientServer->send ( 200, "text/html", getPage() );
   } 

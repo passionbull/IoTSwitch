@@ -13,6 +13,7 @@ public:
     void spiffs_reading();
     void spiffs_init();
     void spiffs_writing(String id, String val);
+    void printDBData();
 
     char mMiddle_angle[4];
     char mOn_angle[4];

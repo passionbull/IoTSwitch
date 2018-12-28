@@ -2,6 +2,7 @@
 
     LocalDB::LocalDB()
     {
+        Serial.println("created localDB");
         strcpy(mOn_angle, "0");
         strcpy(mOff_angle, "0");
         strcpy(mMiddle_angle, "0");
@@ -39,7 +40,8 @@
                             int cntJson = 0;        
                             JsonObject::iterator it;
                             for(it = json.begin(); it !=json.end();++it){
-                                //Serial.println(it->key);
+                                // Serial.println(it->key);
+                                // Serial.println(it->value);
                                 cntJson++;
                             }
                             // check cntJson Size;
@@ -124,3 +126,18 @@
             configFile.close();
         }
     }
+
+    void LocalDB::printDBData() {
+        Serial.print("mOn_angle: ");
+        Serial.println(mOn_angle);
+        Serial.print("mOff_angle: ");
+        Serial.println(mOff_angle);
+        Serial.print("mMiddle_angle: ");
+        Serial.println(mMiddle_angle);
+        Serial.print("mAlarm_time_0: ");
+        Serial.println(mAlarm_time_0);
+        Serial.print("mAlarm_time_1: ");
+        Serial.println(mAlarm_time_1);
+        Serial.print("mAlarm_time_2: ");
+        Serial.println(mAlarm_time_2);
+}

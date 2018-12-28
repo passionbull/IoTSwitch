@@ -15,14 +15,15 @@ class Timer{
         Timer();
         ~Timer();
         Ticker _ticker;
-        void setup(LocalDB& db, ServoController& servoController);
+        void setup(LocalDB* db, ServoController* servoController);
         void setConfig(int gmt_timezone);
         String getCurrentTime();
 
         void checkDiff(String currentTime, String alarmTime, String onAngle, String offAngle, String midAngle, int i);
+        void checkDiff(String currentTime, int i);
         int once[3];
-        LocalDB mDB;
-        ServoController mServoController;
+        LocalDB* mDB;
+        ServoController* mServoController;
 
     private:
         String intToString(int number);

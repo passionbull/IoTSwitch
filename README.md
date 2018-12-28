@@ -35,3 +35,6 @@ IoTSwitcher makes switch on/off automatically.
 - https://www.kickstarter.com/projects/switchbot/switch-bot-the-worlds-smallest-remote-robot
 - https://medium.com/@monkeytypewritr/amazon-echo-esp8266-iot-a42076daafa5
 - https://www.switcher.kr/#spec
+
+## Get esp8266 ip
+- sudo arp-scan -l

@@ -12,7 +12,7 @@ class WebFront{
     public:
         ~WebFront();
         WebFront();
-        void setup(LocalDB& db, ServoController& servoController);
+        void setup(LocalDB* db, ServoController* servoController);
         void handle();
         void handleRoot();
         void handleSubmit();
@@ -29,8 +29,8 @@ class WebFront{
     private:
       ESP8266WebServer* mClientServer;
       String  mSwitchText;
-      LocalDB mDB;
-      ServoController mServoController;
+      LocalDB* mDB;
+      ServoController* mServoController;
 };
 #endif
 
