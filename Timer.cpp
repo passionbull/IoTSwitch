@@ -36,8 +36,19 @@ String Timer::getCurrentTime()
 
 void Timer::checkDiff(String currentTime, int i)
 {
-
-    String alarmTime = mDB->mAlarm_time_0;
+    String alarmTime = "";
+    switch(i)
+    {
+        case 0:
+            alarmTime = mDB->mAlarm_time_0;
+        break;
+        case 1:
+            alarmTime = mDB->mAlarm_time_1;
+        break;
+        case 2:
+            alarmTime = mDB->mAlarm_time_2;
+        break;
+    }
     String onAngle = mDB->mOn_angle;
     String offAngle = mDB->mOff_angle;
     String midAngle = mDB->mMiddle_angle;

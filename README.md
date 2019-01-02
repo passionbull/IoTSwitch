@@ -21,7 +21,7 @@ IoTSwitcher makes switch on/off automatically.
 - [x] Set parameter using HTTP requests
 - [x] Make hardware for this device
 - [x] Set init spiffs
-- [ ] Set alarm using HTTP requests
+- [x] Set alarm using HTTP requests
 - [ ] Run web-server with DNS for connecting easily
 
 ## Hardware schematic
