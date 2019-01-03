@@ -1,5 +1,5 @@
-# IoTSwitcher
-IoTSwitcher makes switch on/off automatically.
+# IoTSwitch
+IoTSwitch makes switch on/off automatically.
 
 ## Contents
 - [What it is](#what-is-it)

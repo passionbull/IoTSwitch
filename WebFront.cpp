@@ -31,8 +31,8 @@ void WebFront::setup(LocalDB* db, ServoController* servo){
     mClientServer->begin();
 
     // You can connect webpage using domain name.
-    // SmartSwitcher.local
-    if (!MDNS.begin("IoTSwitcher")) {
+    // IoTSwitch.local
+    if (!MDNS.begin("IoTSwitch")) {
         Serial.println("Error setting up MDNS responder!");
         while (1) {
             delay(1000);
